@@ -8,7 +8,8 @@ const form = () => {
     const { register, handleSubmit } = useForm();
 
 function salvar(dados){
-    console.log(dados)
+    console.log(dados);
+    set(refdb,'cursos/2',dados)
 }
 
   return (
