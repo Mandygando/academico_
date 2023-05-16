@@ -12,7 +12,7 @@ function salvar(dados){
 }
 
   return (
-    <Pagina titulo="Formularios" >
+    <Pagina titulo="Formulario" >
     <Form>
       <Form.Group className="mb-3" controlId="nome">
         <Form.Label>Nome: </Form.Label>
