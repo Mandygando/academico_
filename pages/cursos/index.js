@@ -1,48 +1,62 @@
 import Pagina from '@/components/Pagina'
 import Link from 'next/link'
-import React from 'react'
-import { Button, Table } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Button, Container, Table } from 'react-bootstrap'
 import { AiOutlinePlus } from "react-icons/ai";
+import { HiBackspace } from 'react-icons/hi'
 
-const Cursos = () => {
+const index = () => {
+
+    const [cursos, setCursos] = useState([])
+
+    useEffect(() => {
+        setCursos(getAll())
+    }, [])
+
+    function getAll(){
+        return JSON.parse(window.localStorage.getItem('cursos')) || []
+    }
+
+    function excluir(id){
+        const itens = getAll()
+        itens.splice(id, 1)
+        window.localStorage.setItem('cursos', JSON.stringify(itens))
+        setCursos(itens)
+
+    }
+
     return (
         <Pagina titulo="Cursos">
-            <Link href="/cursos/form" className='mb-2 btn btn-warning'>
-            <AiOutlinePlus/>
-                Novo
-            </Link>
-            <Table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                </tbody>
-            </Table>
+            <Container>
+                <Link href="/cursos/form" className='mb-2 btn btn-warning'>
+                    <AiOutlinePlus />
+                    Novo
+                </Link>
+                <Table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Modalidade</th>
+                            <th>Duração</th>
+                        </tr>
 
+                    </thead>
+                    <tbody>
+                        {cursos.map( (item, i) => (
+                            <tr key={i}>
+                                <td>
+                                    <HiBackspace onClick={()=>excluir(i)} className='text-warning' />
+                                </td>
+                                <td>{item.nome}</td>
+                                <td>{item.duracao}</td>
+                                <td>{item.modalidade}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </Container>
         </Pagina>
     )
 }
 
-export default Cursos
+export default index
