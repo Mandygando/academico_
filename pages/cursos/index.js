@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Container, Table } from 'react-bootstrap'
 import { AiOutlinePlus } from "react-icons/ai";
 import { HiBackspace } from 'react-icons/hi'
+import { BiBrush} from 'react-icons/bi'
 
 const index = () => {
 
@@ -13,16 +14,17 @@ const index = () => {
         setCursos(getAll())
     }, [])
 
-    function getAll(){
+    function getAll() {
         return JSON.parse(window.localStorage.getItem('cursos')) || []
     }
 
-    function excluir(id){
-        const itens = getAll()
-        itens.splice(id, 1)
-        window.localStorage.setItem('cursos', JSON.stringify(itens))
-        setCursos(itens)
-
+    function excluir(id) {
+        if (confirm('Deseja realmente excluir o registro?')) {
+            const itens = getAll()
+            itens.splice(id, 1)
+            window.localStorage.setItem('cursos', JSON.stringify(itens))
+            setCursos(itens)
+        }
     }
 
     return (
@@ -42,11 +44,16 @@ const index = () => {
 
                     </thead>
                     <tbody>
-                        {cursos.map( (item, i) => (
+                        {cursos.map((item, i) => (
                             <tr key={i}>
                                 <td>
-                                    <HiBackspace onClick={()=>excluir(i)} className='text-warning' />
+                                    <Link href={'/cursos' +i}>
+                                    <BiBrush title="alterar" className='texte warning'></BiBrush>
+                                    </Link>
+                                    {''}
+                                    <HiBackspace onClick={() => excluir(i)} className='text-danger ' />
                                 </td>
+
                                 <td>{item.nome}</td>
                                 <td>{item.duracao}</td>
                                 <td>{item.modalidade}</td>
