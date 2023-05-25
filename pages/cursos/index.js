@@ -47,7 +47,7 @@ const index = () => {
                         {cursos.map((item, i) => (
                             <tr key={i}>
                                 <td>
-                                    <Link href={'/cursos' +i}>
+                                    <Link href={'/cursos/' +i}>
                                     <BiBrush title="alterar" className='texte warning'></BiBrush>
                                     </Link>
                                     {''}

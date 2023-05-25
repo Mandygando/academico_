@@ -30,6 +30,12 @@ const form = () => {
 
   console.log(query.id)
 
+  function salvar(dados) { 
+    const cursos = JSON.parse(window.localStorage.getItem('cursos')) || [] 
+    cursos.splice(query.id, 1, dados)
+    window.localStorage.setItem('cursos', JSON.stringify(cursos))
+    
+  }
   return (
     <Pagina titulo="Formulario" >
       <Form>

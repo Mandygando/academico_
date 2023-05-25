@@ -12,14 +12,13 @@ import { BiArrowBack } from "react-icons/bi";
 
 const form = () => {
 
-  const { push } = useRouter()
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm()
 
-  function salvar(dados) {
-    const cursos = JSON.parse(window.localStorage.getItem('cursos')) || []
+  function salvar(dados) { 
+    const cursos = JSON.parse(window.localStorage.getItem('cursos')) || [] 
     cursos.push(dados)
     window.localStorage.setItem('cursos', JSON.stringify(cursos))
-    push('/cursos')
+    
   }
 
   return (
