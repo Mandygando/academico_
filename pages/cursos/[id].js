@@ -13,28 +13,28 @@ import { BiArrowBack } from "react-icons/bi";
 const form = () => {
 
   const { push, query } = useRouter()
-  const { register, handleSubmit, setValue} = useForm();
+  const { register, handleSubmit, setValue } = useForm();
 
-  useEffect(() => { 
+  useEffect(() => {
 
-    if(query.id){
-    const id = query.id
-    const cursos =  JSON.parse(window.localStorage.getItem('cursos'))
-    const curso = cursos[id]
-  
-    for(let atributo in curso){
-      setValue(atributo, curso[atributo])
+    if (query.id) {
+      const id = query.id
+      const cursos = JSON.parse(window.localStorage.getItem('cursos'))
+      const curso = cursos[id]
+
+      for (let atributo in curso) {
+        setValue(atributo, curso[atributo])
+      }
     }
-  }
   }, [query.id])
 
   console.log(query.id)
 
-  function salvar(dados) { 
-    const cursos = JSON.parse(window.localStorage.getItem('cursos')) || [] 
+  function salvar(dados) {
+    const cursos = JSON.parse(window.localStorage.getItem('cursos')) || []
     cursos.splice(query.id, 1, dados)
     window.localStorage.setItem('cursos', JSON.stringify(cursos))
-    
+
   }
   return (
     <Pagina titulo="Formulario" >
