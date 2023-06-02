@@ -2,8 +2,7 @@ import Pagina from '@/components/Pagina'
 import axios from 'axios'
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
-import { Button, Table } from 'react-bootstrap'
-import { AiOutlinePlus } from 'react-icons/ai'
+import { Table } from 'react-bootstrap'
 import { BsFillTrash3Fill, BsPencilFill } from 'react-icons/bs'
 
 const index = () => {
@@ -11,20 +10,21 @@ const index = () => {
     const [disciplinas, setDisciplinas] = useState([])
 
     useEffect(() => {
-        axios.get('/api/disciplinas').then(resultado =>{
-           setDisciplinas(resultado.data);
-        })
+        getAll()
     }, [])
 
     function getAll(){
-        axios.get('/api/disciplinas').then(resultado =>{
+        axios.get('/api/disciplinas').then( resultado => {
             setDisciplinas(resultado.data);
-         })
+        })
     }
-
-   function excluir(id){
-    axios.delete('/api/disciplinas/' + id)
-   }
+    
+    function excluir(id){
+        if (confirm('Deseja realmente excluir o registro?')) {
+        axios.delete('/api/disciplinas/' + id)
+        getAll()
+        }
+    }
 
     return (
         <Pagina titulo="Disciplinas">
@@ -38,12 +38,11 @@ const index = () => {
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
-                        <th>Duração</th>
-                        <th>Modalidade</th>
+                        <th>Curso</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {disciplinas.map(item => (
+                    {disciplinas.map( item => (
                         <tr key={item.id}>
                             <td>
                                 <Link href={'/disciplinas/' + item.id}>
@@ -52,9 +51,8 @@ const index = () => {
                                 {' '}
                                 <BsFillTrash3Fill title="Excluir" onClick={() => excluir(item.id)} className='text-danger' />
                             </td>
-                            <td>{item.id}</td>
-                            <td>{item.duracao}</td>
-                            <td>{item.modalidade}</td>
+                            <td>{item.nome}</td>
+                            <td>{item.curso}</td>
                         </tr>
                     ))}
                 </tbody>
