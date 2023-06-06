@@ -6,13 +6,14 @@ import { Button, Form } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { BiArrowBack } from "react-icons/bi";
-
+import cursoValidator from '@/validators/cursoValidator'
 
 
 
 const form = () => {
 
-  const { register, handleSubmit } = useForm()
+  const {push} = useRouter()
+  const { register, handleSubmit, formState: {errors} } = useForm()
 
   function salvar(dados) { 
     const cursos = JSON.parse(window.localStorage.getItem('cursos')) || [] 
@@ -21,22 +22,48 @@ const form = () => {
     
   }
 
+  const validacaoNome = {
+    required: 'Campo obrigatório!',
+    minLength: {
+      value: 3,
+      message: 'O minimo de caracteres é 3'
+    },
+    maxLength:{
+      value: 10,
+      message: 'O máximo caracteres é 10'
+    },
+  }
+  
+
   return (
     <Pagina titulo="Formulario" >
       <Form>
         <Form.Group className="mb-3" controlId="nome">
           <Form.Label>Nome: </Form.Label>
-          <Form.Control type="text" {...register('nome')} placeholder="Digite o nome do curso" />
+          <Form.Control isInvalid={errors.nome} type="text" {...register('nome', cursoValidator.nome)} placeholder="Digite o nome do curso" />
+          {
+            errors.nome &&
+            <small className='mt-1 text-warning'>{errors.nome.message}</small>
+          }
+          
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="duracao">
           <Form.Label>Modalidade: </Form.Label>
-          <Form.Control type="text"  {...register('duracao')} placeholder="Digite a modalidade" />
+          <Form.Control isInvalid={errors.duracao} type="text"  {...register('duracao', cursoValidator.duracao)} placeholder="Digite a modalidade" />
+          {
+            errors.duracao &&
+            <small className='mt-1 text-warning'>{errors.nome.message}</small>
+          }
         </Form.Group>
 
         <Form.Group className="mb-3 " controlId="modalidade">
           <Form.Label>Duração: </Form.Label>
-          <Form.Control type="text"  {...register('modalidade')} placeholder="Digite a duração" />
+          <Form.Control isInvalid={errors.modalidade} type="text"  {...register('modalidade', cursoValidator.modalidade)} placeholder="Digite a duração" />
+          {
+            errors.modalidade &&
+            <small className='mt-1 text-warning'>{errors.nome.message}</small>
+          }
         </Form.Group>
     <div className='text-center'>
 
